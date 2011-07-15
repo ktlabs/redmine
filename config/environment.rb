@@ -5,7 +5,7 @@
 # ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '2.3.11' unless defined? RAILS_GEM_VERSION
+#RAILS_GEM_VERSION = '2.3.11' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
@@ -37,7 +37,6 @@ Rails::Initializer.run do |config|
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector
   config.active_record.observers = :message_observer, :issue_observer, :journal_observer, :news_observer, :document_observer, :wiki_content_observer, :comment_observer
-
   # Make Active Record use UTC-base instead of local time
   # config.active_record.default_timezone = :utc
   
@@ -50,9 +49,9 @@ Rails::Initializer.run do |config|
   # It will automatically turn deliveries on
   config.action_mailer.perform_deliveries = false
 
-  config.gem 'rubytree', :lib => 'tree'
-  config.gem 'coderay', :version => '~>0.9.7'
-  
+ # config.gem 'rubytree', :lib => 'tree'
+ # config.gem 'coderay', :version => '~>0.9.7'
+
   # Load any local configuration that is kept out of source control
   # (e.g. gems, patches).
   if File.exists?(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
