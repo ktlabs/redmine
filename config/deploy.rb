@@ -1,6 +1,8 @@
 default_run_options[:pty] = true
+set :keep_releases, 2
 
 set :application, "redmine"
+set :user, "deploy"
 
 set :scm, "git"
 set :repository,  "git@github.com:ktlabs/redmine.git"
@@ -18,7 +20,7 @@ after "deploy:symlink", "deploy:copy_db_config"
 
 namespace :deploy do
   task :restart do
-    run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+    run "touch #{File.join(current_path,'tmp','restart.txt')}"
   end
 
   desc "Update the crontab file"
@@ -28,18 +30,8 @@ namespace :deploy do
 
   desc "Copy database config"
   task :copy_db_config, :roles => :db do
-    run "#{try_sudo} cp #{File.join(shared_path,'database.yml')} #{current_path}/config/"
+    run "cp #{File.join(shared_path,'database.yml')} #{current_path}/config/"
   end
 end
 
-# if you're still using the script/reaper helper you will need
-# these http://github.com/rails/irs_process_scripts
-
-# If you are using Passenger mod_rails uncomment this:
-# namespace :deploy do
-#   task :start do ; end
-#   task :stop do ; end
-#   task :restart, :roles => :app, :except => { :no_release => true } do
-#     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
-#   end
-# end
+require 'bundler/capistrano'
