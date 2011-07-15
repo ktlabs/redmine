@@ -14,6 +14,24 @@ role :db,  "ktlabs.ru", :primary => true # This is where Rails migrations will r
 set :deploy_to, "/var/www/#{application}-production"
 set :branch, "master"
 
+after "deploy:symlink", "deploy:copy_db_config"
+
+namespace :deploy do
+  task :restart do
+    run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+  end
+
+  desc "Update the crontab file"
+  task :update_crontab, :roles => :db do
+    run "cd #{release_path} && whenever --update-crontab #{application}"
+  end
+
+  desc "Copy database config"
+  task :copy_db_config, :roles => :db do
+    run "#{try_sudo} cp #{File.join(shared_path,'database.yml')} #{current_path}/config/"
+  end
+end
+
 # if you're still using the script/reaper helper you will need
 # these http://github.com/rails/irs_process_scripts
 
