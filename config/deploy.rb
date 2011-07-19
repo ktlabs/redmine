@@ -16,21 +16,18 @@ role :db,  "ktlabs.ru", :primary => true # This is where Rails migrations will r
 set :deploy_to, "/var/www/#{application}-production"
 set :branch, "master"
 
-after "deploy:symlink", "deploy:copy_db_config"
+after "deploy:symlink", "deploy:copy_custom_files"
+after "deploy:symlink", "deploy:migrate"
 
 namespace :deploy do
   task :restart do
     run "touch #{File.join(current_path,'tmp','restart.txt')}"
   end
 
-  desc "Update the crontab file"
-  task :update_crontab, :roles => :db do
-    run "cd #{release_path} && whenever --update-crontab #{application}"
-  end
-
-  desc "Copy database config"
-  task :copy_db_config, :roles => :db do
+  desc "Copy custom files"
+  task :copy_custom_files, :roles => :db do
     run "cp #{File.join(shared_path,'database.yml')} #{current_path}/config/"
+    run "cp #{File.join(shared_path,'session_store.rb')} #{current_path}/config/initializers/"
   end
 end
 
