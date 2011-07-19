@@ -9,3 +9,8 @@ gem 'mysql2', '=0.2.7'
 group :development do
   gem 'capistrano'
 end
+group :test do
+  gem "shoulda"
+  gem "mocha", :require => nil # ":require => nil" fixes obscure bugs - remote and run all tests
+  gem "edavis10-object_daddy", :require => "object_daddy"
+end
