@@ -37,7 +37,6 @@ Rails::Initializer.run do |config|
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector
   config.active_record.observers = :message_observer, :issue_observer, :journal_observer, :news_observer, :document_observer, :wiki_content_observer, :comment_observer
-  config.action_controller.session = { :key => "redmine_kt", :secret => "b3bb5ac996981ee4d801ea91a26d0786" }
   # Make Active Record use UTC-base instead of local time
   # config.active_record.default_timezone = :utc
   
